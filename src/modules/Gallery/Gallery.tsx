@@ -1,8 +1,13 @@
 import React from "react";
+import MainContent from '../../components/MainContent';
+import content from '../../pageContent/galleryPageContent';
 
-const Gallery:React.FC = () => {
+const Gallery:React.FC = (props) => {
   return (
-    <div>This is the gallery page</div>
+    <MainContent
+      title={content.title}
+      mainContent={content.mainContent}
+    />
   );
 };
 

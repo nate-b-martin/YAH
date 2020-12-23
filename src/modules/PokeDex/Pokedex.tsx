@@ -3,6 +3,8 @@ import { AppBar, Toolbar, Grid, Card, CardContent, CardMedia, CircularProgress, 
 import { makeStyles, Theme, fade } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
+import content from '../../pageContent/pokedexPageContent';
+import MainContent from '../../components/MainContent';
 
 const useStyles = makeStyles(theme => ({
    pokedexContainer: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles(theme => ({
       paddingRight: "20px",
       marginTop: "5px",
       marginBottom: "5px",
+      justifyContent: "center"
    },
    searchIcon: {
       alignSelf: "flex-end",
@@ -88,10 +91,16 @@ const Pokedex:React.FC = (props:any) => {
          </Grid>
       );
    }
+
    return (
-      <>
-         <AppBar position="static">
-            <Toolbar>
+      <div>
+      <MainContent
+         title={content.title}
+         mainContent={content.mainContent}
+      />
+      {pokemonData ? (
+         <Grid container spacing={2} className={classes.pokedexContainer} >
+            <Grid item xs={12} key="searchInput">
                <div className={classes.searchContainer}>
                   <SearchIcon className={classes.searchIcon}/>
                   <TextField 
@@ -101,18 +110,15 @@ const Pokedex:React.FC = (props:any) => {
                      variant="standard"
                   />
                </div>
-            </Toolbar>
-         </AppBar>
-         {pokemonData ? (
-            <Grid container spacing={2} className={classes.pokedexContainer} >
+            </Grid>
                {Object.keys(pokemonData).map((pokemonId) => 
                   pokemonData[pokemonId].name.includes(filter) && 
                   getPokemonCard(parseInt(pokemonId)))}
-            </Grid>
-         ) : (
-            <CircularProgress/>
-         )}
-      </>
+         </Grid>
+      ) : (
+         <CircularProgress/>
+      )}
+      </div>
    );
 };
 

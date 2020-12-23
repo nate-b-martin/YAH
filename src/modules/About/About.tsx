@@ -1,8 +1,13 @@
-import React from "react";
+import React from 'react'
+import MainContent from '../../components/MainContent';
+import content from '../../pageContent/aboutPageContent';
 
-const About:React.FC = () => {
+const About:React.FC = (props) => {
   return (
-    <div>This is the about page</div>
+    <MainContent
+      title={content.title}
+      mainContent={content.mainContent}
+    />
   );
 };
 

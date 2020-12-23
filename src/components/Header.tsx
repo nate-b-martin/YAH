@@ -9,12 +9,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import HeaderLinkButton from './buttons/HeaderLinkButton';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -26,13 +27,10 @@ const useStyles = makeStyles(theme => ({
   },
   headerOptions: {
     display: "flex",
-    flex: 1,
-    justifyContent: "space-evenly"
+    flex: "auto",
+    justifyContent: "space-around"
   }
 }));
-
-interface HeaderProps {
-}
 
 const Header:React.FC = (props:any) => {
   const { history } = props;
@@ -72,7 +70,7 @@ const Header:React.FC = (props:any) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             YAH 
@@ -115,6 +113,10 @@ const Header:React.FC = (props:any) => {
             </>
           ) : (
             <div className={classes.headerOptions}>
+              {/* <HeaderLinkButton
+                linkTitle="About"
+                path="/"
+              /> */}
               <Button >
                 <Link component="button"
                   color="inherit"
@@ -125,17 +127,21 @@ const Header:React.FC = (props:any) => {
                   </Typography>
                 </Link>
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => handleButtonClick("/gallery")}
-              >
-                Gallery 
+              <Button>
+                <Link component="button"
+                  color="inherit"
+                  onClick={() => handleButtonClick("/gallery")}
+                  >
+                    <Typography>Gallery</Typography>
+                  </Link>
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => handleButtonClick("/pokedex")}
-              >
-                Pokedex 
+              <Button>
+                <Link component="button"
+                  color="inherit"
+                  onClick={() => handleButtonClick("/pokedex")}
+                  >
+                    <Typography>Pokedex</Typography>
+                  </Link>
               </Button>
             </div>
           )}
