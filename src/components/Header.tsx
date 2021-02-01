@@ -113,36 +113,21 @@ const Header:React.FC = (props:any) => {
             </>
           ) : (
             <div className={classes.headerOptions}>
-              {/* <HeaderLinkButton
+              <HeaderLinkButton
                 linkTitle="About"
                 path="/"
-              /> */}
-              <Button >
-                <Link component="button"
-                  color="inherit"
-                  onClick={() => handleButtonClick("/")}
-                >
-                  <Typography>
-                    About 
-                  </Typography>
-                </Link>
-              </Button>
-              <Button>
-                <Link component="button"
-                  color="inherit"
-                  onClick={() => handleButtonClick("/gallery")}
-                  >
-                    <Typography>Gallery</Typography>
-                  </Link>
-              </Button>
-              <Button>
-                <Link component="button"
-                  color="inherit"
-                  onClick={() => handleButtonClick("/pokedex")}
-                  >
-                    <Typography>Pokedex</Typography>
-                  </Link>
-              </Button>
+                history={history}
+              />
+              <HeaderLinkButton 
+                linkTitle="Gallery"
+                path="/gallery"
+                history={history}
+              />
+              <HeaderLinkButton
+                linkTitle="Pokedex"
+                path="/pokedex"
+                history={history}
+              />
             </div>
           )}
         </Toolbar>

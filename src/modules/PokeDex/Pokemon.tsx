@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Link, CircularProgress, Button } from '@material-ui/core';
+import PokemonCard from '../../components/cards/PokemonCard';
+import Grid from '@material-ui/core/Grid';
+import _ from 'lodash';
 import axios from 'axios';
 
 
 const toFirstCharUpperCase = (name:string) => 
    name.charAt(0).toUpperCase() + name.slice(1);
 
-const Pokemon:React.FC = (props:any) => {
+const Pokemon = (props:any) => {
    const { history, match } = props;
    const { params } = match;
    const { pokemonId } = params;
@@ -24,41 +27,31 @@ const Pokemon:React.FC = (props:any) => {
       });
    }, [pokemonId]);
 
-   const generatePokemonJSX = () => {
+   const generatePokemonCard = () => {
       const { name, id, species, height, weight, types, sprites } = pokemon;
       const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
       const { front_default } = sprites;
       return (
-         <>
-            <Typography variant="h1">
-               {`${id}. ${toFirstCharUpperCase(name)}`}
-            </Typography>
-            <img style={{ width: "300px", height: "300px"}}src={fullImageUrl}/>
-            <Typography variant="h3"> Pokemon Info </Typography>
-            <Typography>
-               {"Species: "}
-               <Link href={species.url}> {species.name} </Link>
-            </Typography>
-            <Typography>Height: {height}</Typography>
-            <Typography>Weight: {weight}</Typography>
-            <Typography variant="h6">Types:
-               {types.map((typeInfo: { type: any; }) => {
-                  const { type } = typeInfo;
-                  const { name } = type;
-                  return <Typography key={name}> {`${name}`}</Typography>
-               })}
-            </Typography>
-         </>
+         <Grid item xs={12}>
+            <PokemonCard
+               id={id}
+               title={toFirstCharUpperCase(name)}
+               pokemonName={toFirstCharUpperCase(name)}
+               image={fullImageUrl}
+               height={height}
+               weight={weight}
+            />
+         </Grid>
       );
    }
 
    return (
    <>
       {pokemon === undefined && <CircularProgress/>}
-      {pokemon !== undefined && pokemon && generatePokemonJSX()}
+      {pokemon !== undefined && pokemon && generatePokemonCard()}
       {pokemon === false && <Typography>Pokemon not found</Typography> }
       {pokemon !== undefined && (
-         <Button variant="contained" onClick={() => history.push("/")}>
+         <Button variant="contained" onClick={() => history.push("/pokedex")}>
             Back To PokeDex
          </Button>
       )}

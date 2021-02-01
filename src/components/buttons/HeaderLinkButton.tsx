@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { EventHandler, SyntheticEvent } from 'react'
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import { Route, Switch } from 'react-router-dom';
+import { History } from 'history';
 
 interface LinkButtonProps {
   linkTitle:string;
   path:string;
-  history?:any;
+  history: History;
 }
 
 
