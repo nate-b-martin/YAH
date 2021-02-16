@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import Grid from "@material-ui/core/Grid";
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 

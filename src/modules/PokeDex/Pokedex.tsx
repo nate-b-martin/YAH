@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Grid, Card, CardContent, CardMedia, CircularProgress, Typography, TextField } from '@material-ui/core';
-import { makeStyles, Theme, fade } from '@material-ui/core/styles'
+import { Grid, Card, CardContent, CardMedia, CircularProgress, Typography, TextField } from '@material-ui/core';
+import { makeStyles, fade } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 import content from '../../pageContent/pokedexPageContent';

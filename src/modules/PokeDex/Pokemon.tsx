@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Link, CircularProgress, Button } from '@material-ui/core';
+import { Typography, CircularProgress, Button } from '@material-ui/core';
 import PokemonCard from '../../components/cards/PokemonCard';
 import Grid from '@material-ui/core/Grid';
-import _ from 'lodash';
 import axios from 'axios';
 
 
@@ -28,7 +27,7 @@ const Pokemon = (props:any) => {
    }, [pokemonId]);
 
    const generatePokemonCard = () => {
-      const { name, id, species, height, weight, types, sprites } = pokemon;
+      const { name, id, height, weight, sprites } = pokemon;
       const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
       const { front_default } = sprites;
       return (

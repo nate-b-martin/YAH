@@ -1,5 +1,5 @@
-import React, { EventHandler, SyntheticEvent } from 'react'
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import React from 'react'
+import { makeStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
@@ -11,13 +11,11 @@ interface LinkButtonProps {
   history: History;
 }
 
-
 const useStyles = makeStyles(theme => ({
   buttonText: {
     color:"white"
   },
 }));
-
 
 const HeaderLinkButton = (props:LinkButtonProps) => {
   const { history } = props;

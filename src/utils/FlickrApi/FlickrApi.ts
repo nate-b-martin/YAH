@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { PhotoSetRequest } from './FlickrApiTypes';
 
 class FlickrApi {
 

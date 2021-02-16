@@ -7,8 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
+// import Button from "@material-ui/core/Button";
+// import Link from "@material-ui/core/Link";
 import HeaderLinkButton from './buttons/HeaderLinkButton';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { withRouter } from "react-router-dom";
@@ -49,9 +49,9 @@ const Header:React.FC = (props:any) => {
     setAnchorEl(null);
   };
 
-  const handleButtonClick = (pageURL:any) => {
-    history.push(pageURL);
-  };
+  // const handleButtonClick = (pageURL:any) => {
+  //   history.push(pageURL);
+  // };
 
   const menuItems = [
     {

@@ -5,8 +5,8 @@ import Header from '../../components/Header';
 import About from '../About/About';
 import Gallery from '../Gallery/Gallery';
 import { Pokedex, Pokemon }from '../PokeDex/index';
-import { Route, RouteProps, Switch } from 'react-router-dom';
-import classes from '*.module.css';
+import { Route, Switch } from 'react-router-dom';
+// import classes from '*.module.css';
 
 const useStyles = makeStyles((theme) => ({
   header: theme.mixins.toolbar,
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const FullLayout = () => {
   const classes = useStyles();
   return (
-    <div>
+    <>
       <Grid item xs={12}>
         <Header/>
       </Grid>
@@ -36,7 +36,7 @@ const FullLayout = () => {
           </Switch>
           </div>
         </Grid>
-    </div>
+    </>
   )
 }
 
