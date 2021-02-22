@@ -22,20 +22,14 @@ const FullLayout = () => {
         <Header/>
       </Grid>
 
-        <Grid item xs={12}>
-          <div className={classes.header}>
-          <Switch>
-              <Route exact path="/" render={(props:any) => <About {...props} />} />
-              <Route exact path="/gallery" render={(props:any) => <Gallery {...props} />} />
-              <Route exact path="/pokedex" render={(props: any) => <Pokedex {...props}/>}/>
-              <Route
-                exact
-                path="/:pokemonId"
-                render={(props:any) => <Pokemon {...props}/>}
-                />
-          </Switch>
-          </div>
-        </Grid>
+      <Grid item xs={12}>
+        <Switch>
+            <Route exact path="/" render={(props:any) => <About {...props} />} />
+            <Route exact path="/gallery" render={(props:any) => <Gallery {...props} />} />
+            <Route exact path="/pokedex" render={(props: any) => <Pokedex {...props}/>}/>
+            <Route exact path="/:pokemonId" render={(props:any) => <Pokemon {...props}/>}/>
+        </Switch>
+      </Grid>
     </>
   )
 }
