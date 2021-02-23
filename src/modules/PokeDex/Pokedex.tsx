@@ -77,7 +77,7 @@ const Pokedex:React.FC = (props:any) => {
    const getPokemonCard = (pokemonId:number) => {
       const { id, name, sprite } = pokemonData[pokemonId];
       return (
-         <Grid item xs={4} key={pokemonId}>
+         <Grid item xs={12} sm={6} md={4} key={pokemonId}>
             <Card onClick = {() => history.push(`/${pokemonId}`)}>
                <CardMedia
                   className={classes.cardMedia}

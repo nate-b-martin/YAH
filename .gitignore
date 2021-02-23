@@ -21,6 +21,8 @@
 
 # configs
 /configs
+/configs/*
+src/configs/flickrConfigs.ts
 
 npm-debug.log*
 yarn-debug.log*

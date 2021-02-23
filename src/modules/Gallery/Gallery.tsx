@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import _ from 'lodash';
 import MainContent from '../../components/MainContent';
 import content from '../../pageContent/galleryPageContent';
 import GalleryCard from '../../components/cards/GalleryCard';
 import FlickrApi from '../../utils/FlickrApi/FlickrApi';
-// import { PhotoSetRequest }from '../../utils/FlickrApi/FlickrApiTypes';
-import { flickrConfig }from '../../configs/flickrConfigs';
+import flickrConfig from '../../configs/flickrConfigs';
 import Grid from "@material-ui/core/Grid";
-import { Container, GridList, GridListTile  } from "@material-ui/core";
-// import CircularProgress from "@material-ui/core/CircularProgress";
+import { Container, GridList, GridListTile, isWidthUp  } from "@material-ui/core";
+
 
 type PictureObject = {
   key?:number,
@@ -38,6 +38,14 @@ const useStyles = makeStyles(theme => ({
 
 
 const Gallery:React.FC = (props) => {
+  const theme = useTheme();
+  const screenNarrow = useMediaQuery('(max-width:340px');
+  const screenExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
+  const screenSmall = useMediaQuery(theme.breakpoints.only('sm'));
+  const screenMedium = useMediaQuery(theme.breakpoints.only('md'));
+  const screenLarge = useMediaQuery(theme.breakpoints.only('lg'));
+  const screenExtraLarge = useMediaQuery(theme.breakpoints.only('xl'));
+
   const classes = useStyles();
   const apiKey = flickrConfig.Key;
   const apiSecret = flickrConfig.Secret;
@@ -119,6 +127,28 @@ const Gallery:React.FC = (props) => {
     );
   }
 
+  const orderPictures = (pictures:PictureObject[]) => {
+    return _.orderBy(pictures, 'height');
+  }
+
+ const getScreenWidth = () => {
+    if (screenExtraLarge) {
+      return 4;
+    } else if (screenNarrow) {
+      return 1;
+    } else if (screenLarge) {
+      return 4;
+    } else if (screenMedium) {
+      return 3;
+    } else if (screenSmall) {
+      return 2;
+    } else if (screenExtraSmall) {
+      return 1;
+    } else {
+      return 3;
+    }
+  }
+
   return (
     <>
       <Grid item xs={12}>
@@ -128,34 +158,29 @@ const Gallery:React.FC = (props) => {
         />
       </Grid>
     <div className={classes.gridListRoot}>
-      <GridList cellHeight={"auto"} className={classes.gridList} cols={3} spacing={3}>
-        {galleryPictures.map((photo, index) => (
-          <GridListTile key={photo.key} cols={photo.height > photo.width ? 1 : 2}>
-            <img src={photo.imagePath} alt={photo.key?.toString()}/>
-          </GridListTile>
-        ))}
-      </GridList>
+      {
+        getScreenWidth() < 3 ? (
+          <GridList cellHeight={"auto"}  cols={getScreenWidth()} spacing={8}>
+            {
+              orderPictures(galleryPictures).map((photo, index) => (
+              <GridListTile key={photo.key} cols={photo.height > photo.width ? 1 : 1}>
+                <img src={photo.imagePath} alt={photo.key?.toString()}/>
+              </GridListTile>
+            ))}
+          </GridList>
+        ) : (
+
+          <GridList cellHeight={"auto"}  cols={getScreenWidth()} spacing={8}>
+            {
+              galleryPictures.map((photo, index) => (
+              <GridListTile key={photo.key} cols={photo.height > photo.width ? 1 : 2}>
+                <img src={photo.imagePath} alt={photo.key?.toString()}/>
+              </GridListTile>
+            ))}
+          </GridList>
+        ) 
+      }
     </div>
-{/* cols={photo.height > photo.width ? 1 : 2} */}
-      {/* <Container 
-        className={classes.cardGrid} 
-        maxWidth="lg"
-      > */}
-
-        {/* <Grid 
-          container 
-          spacing={2}
-          alignItems="center"
-        > */}
-          {
-            // galleryPictures.map((photo, index) => {
-            //   console.log(index, photo);
-            //   return getPhotoCard(index, photo);
-            // })
-          }
-        {/* </Grid> */}
-
-      {/* </Container> */}
     </>
   );
 };
