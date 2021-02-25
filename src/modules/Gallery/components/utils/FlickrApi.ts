@@ -18,7 +18,7 @@ class FlickrApi {
         return await axios.get(url);
     }
     
-    async getPhotosFromSet(photoSetID:string) {
+    async getPhotosFromSet(photoSetID:any) {
         const url = `https://www.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=${this.apiKey}&photoset_id=${photoSetID}&user_id=${this.userId}&format=json&nojsoncallback=1`
         return await axios.get(url);
     }
