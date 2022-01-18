@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
+import {useFlickr} from './hooks/useFlickr';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import _, { union } from 'lodash';
+import { PictureObject } from './types/GalleryTypes';
+import _ from 'lodash';
 import MainContent from '../../components/MainContent';
 import content from '../../pageContent/galleryPageContent';
-import GalleryCard from './components/GalleryTile';
-import FlickrApi from './components/utils/FlickrApi';
-import flickrConfig from '../../configs/flickrConfigs';
 import Grid from "@material-ui/core/Grid";
-import { Container, GridList, GridListTile, isWidthUp  } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import {  Box, GridList } from "@material-ui/core";
 import GalleryTile from "./components/GalleryTile";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
-
-type PictureObject = {
-  key?:number,
-  imagePath:string;
-  height:number;
-  width:number;
-};
 
 const useStyles = makeStyles(theme => ({
   gridListRoot: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor:theme.palette.background.paper,
+    justifyContent: 'center',
+  },
+  gridList: {
+    justifyContent: 'center',
   },
   circularProgress: {
     marginTop: "15%",
+    justifyContent: 'center',
   },
+  albums:{
+    marginLeft: '12.5%',
+    marginRight: '12.5%',
+  }
 }));
 
 
@@ -45,67 +45,22 @@ const Gallery:React.FC = (props) => {
   const screenExtraLarge = useMediaQuery(theme.breakpoints.only('xl'));
 
   const classes = useStyles();
-  const apiKey = flickrConfig.Key;
-  const apiSecret = flickrConfig.Secret;
-  const userID = flickrConfig.userID;
-  const api = new FlickrApi(apiKey, apiSecret, userID);
-  const [photosetTitle, setPhotosetTitle] = useState('Eurotrip');
-  const [photosetID, setPhotosetID] = useState<string>('');
-  const [photoIDs, setPhotoIDs] = useState<Array<String>>([]);
-  const [galleryPictures, setGalleryPictures] = useState<Array<PictureObject>>([]);
+  const [albumTitle, setAlbumTitle] = useState('Eurotrip');
   const [dataFetched, setDataFetched] = useState(false);
 
-  useEffect( () => {
-    const getPhotoSetIdByTitle = (set:Object, title?:String):string => {
-      title = _.get(set, 'title._content');
-      console.log(`Title: ${title}`);
-      if(title === photosetTitle) {
-        console.log(`Setting photo set id`);
-        const pid = _.get(set, 'id');
-        setPhotosetID(pid);
-        return pid;
-      }
-      return '';
-    }
-
-    async function retrieve() {
-      //Get photo set ID
-      let response = await api.getPhotoSetID(photosetTitle);
-
-      const photosets = _.get(response, 'data.photosets.photoset'); // array with photosets
-      const setID = _.map(photosets, getPhotoSetIdByTitle).pop();
-
-      //Get photo IDs from set ID
-      response = await api.getPhotosFromSet(setID);
-
-      const photoArr = _.get(response, "data.photoset.photo");
-      const ids = _.map(photoArr, (photo) => {return _.get(photo, 'id')});
-      setPhotoIDs(ids);
-
-      const pictureSet = _.map(ids, async (id, index) => {
-        const response = await api.getPhotoSizes(id);
-        const sizeArr = _.get(response, 'data.sizes.size[6]');
-        const { source, width, height } = sizeArr;
-        const pictureObject:PictureObject = {
-          key: index,
-          imagePath: source,
-          height,
-          width,
-        }
-        console.log(`picture object: ${JSON.stringify(pictureObject)}`);
-        return pictureObject;
-      })
-
-      setGalleryPictures(await Promise.all(pictureSet));
+  const galleryPictures = useFlickr(albumTitle);
+  useEffect(() => {
+    if(galleryPictures.length > 0){
       setDataFetched(true);
     }
+  });
 
-    retrieve();
+  const handleAlbum = () => {
 
-  }, [photosetTitle]);
+  }
 
   const orderPictures = (pictures:PictureObject[]) => {
-    return _.orderBy(pictures, 'height');
+    return _.orderBy(pictures, 'width');
   }
 
  const getScreenWidth = () => {
@@ -118,9 +73,9 @@ const Gallery:React.FC = (props) => {
     } else if (screenMedium) {
       return 4;
     } else if (screenSmall) {
-      return 3;
+      return 1;
     } else if (screenExtraSmall) {
-      return 2
+      return 1
     } else {
       return 3;
     }
@@ -134,10 +89,18 @@ const Gallery:React.FC = (props) => {
           mainContent={content.mainContent}
         />
       </Grid>
+
+      <div className={classes.albums}> 
+        <Button variant="contained" color="primary"> All Photos </Button> 
+        {/* TODO: When clicking Euro Trip button only pictures that are in that album will show */}
+        <Button variant="contained" color="primary"> Euro Trip </Button>
+        {/* TODO: When clicking Puppies button only pictures that are in the puppy album will show */}
+        <Button variant="contained" color="primary"> Puppies </Button>
+      </div>
       <div className={classes.gridListRoot}>
         {
-            !dataFetched ? (<CircularProgress className={classes.circularProgress} size={150}/> ) : (
-            <GridList cellHeight={"auto"}  cols={1} spacing={4}>
+            !dataFetched ? (<CircularProgress className={classes.circularProgress} size={150}/>) : (
+            <GridList className={classes.gridList} cellHeight={"auto"}  cols={getScreenWidth()} spacing={1}>
               {
                 orderPictures(galleryPictures).map((photo, index) => (
                 <GalleryTile 

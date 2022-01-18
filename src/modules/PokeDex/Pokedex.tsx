@@ -58,21 +58,24 @@ const Pokedex:React.FC = (props:any) => {
    }
 
    useEffect(() => {
-      axios.get('https://pokeapi.co/api/v2/pokemon?limit=807')
-      .then(function(response){
-         const { data } = response;
-         const { results } = data;
-         const newPokemonData = Array<PokemonData>();
-         results.forEach((pokemon: { name: any; }, index: number) => {
-            newPokemonData[index + 1] = {
-               id: index + 1,
-               name: pokemon.name,
-               sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
-            }
+      // if(pokemonData !== null) {
+         axios.get('https://pokeapi.co/api/v2/pokemon?limit=807')
+         .then(function(response){
+            const { data } = response;
+            const { results } = data;
+            const newPokemonData = Array<PokemonData>();
+            results.forEach((pokemon: { name: any; }, index: number) => {
+               newPokemonData[index + 1] = {
+                  id: index + 1,
+                  name: pokemon.name,
+                  sprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`,
+               }
+            });
+            setPokemonData(newPokemonData);
+            // localStorage.setItem("pokemonData", JSON.stringify(newPokemonData));
          });
-         setPokemonData(newPokemonData);
-      });
-   }, []);
+      // }
+   }, [pokemonData]);
    
    const getPokemonCard = (pokemonId:number) => {
       const { id, name, sprite } = pokemonData[pokemonId];
